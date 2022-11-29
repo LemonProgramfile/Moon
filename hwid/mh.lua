@@ -1,4 +1,4 @@
-local HWIDTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/ItzKrasty/MoonLuck/main/mhsnow/mhst.lua"))()
+local HWIDTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/ItzKrasty/Moon/main/hwid/mhlist.lua"))()
 local Players = game:GetService("Players")
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
