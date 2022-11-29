@@ -5,6 +5,7 @@ local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 local plr = game.Players.LocalPlayer
 
 for i,v in pairs(HWIDTable) do
+    print(v)
     if v == HWID then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ItzKrasty/Moon/main/hwid/mhm.lua"))()
     else
