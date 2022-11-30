@@ -50,15 +50,8 @@ fovcircle.Position = Vector2.new(CurrentCamera.ViewportSize.X / 2, CurrentCamera
 -- Tables
 -- Esp
 getgenv().EspSettings = {
-    BoxColor = Color3.new(255,0,0),
-    NameColor = Color3.new(255,0,0),
-    TeamColor = Color3.new(0,255,255),
-    TeamNameColor = Color3.new(0,255,255),
-    EspDistance = 300,
-}
-
-local EspList = {
-    
+    BoxColor = Color3.new(1, 0.568627, 0),
+    NameColor = Color3.new(1, 0.568627, 0),
 }
 --Aim
 getgenv()._Aimbot = {
@@ -511,37 +504,37 @@ SoundChangerSection:AddDropdown('HeadshotHit', {
 Options.HeadshotHit:OnChanged(function()
     if Options.HeadshotHit.Value == "Default" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://9119561046"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 
     if Options.HeadshotHit.Value == "Neverlose" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://6607204501"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 
     if Options.HeadshotHit.Value == "Rust" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://4764109000"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 
     if Options.HeadshotHit.Value == "TF2" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://2868331684"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 
     if Options.HeadshotHit.Value == "Bruh" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://4275842574"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 
     if Options.HeadshotHit.Value == "Hm, is nice" then
         SoundService.PlayerHitHeadshot.SoundId = "rbxassetid://5570758643"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHitHeadshot.Playing = true
     end
 end)
@@ -557,35 +550,35 @@ Options.Hit:OnChanged(function()
     if Options.Hit.Value == "Default" then
         SoundService.PlayerHit.SoundId = "rbxassetid://9114487369"
         SoundService.PlayerHit2.SoundId = "rbxassetid://9114487369"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHit2.Playing = true
     end
 
     if Options.Hit.Value == "Neverlose" then
         SoundService.PlayerHit.SoundId = "rbxassetid://6607204501"
         SoundService.PlayerHit2.SoundId = "rbxassetid://6607204501"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHit2.Playing = true
     end
 
     if Options.Hit.Value == "Rust" then
         SoundService.PlayerHit.SoundId = "rbxassetid://4764109000"
         SoundService.PlayerHit2.SoundId = "rbxassetid://4764109000"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHit2.Playing = true
     end
 
     if Options.Hit.Value == "TF2" then
         SoundService.PlayerHit.SoundId = "rbxassetid://2868331684"
         SoundService.PlayerHit2.SoundId = "rbxassetid://2868331684"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHit2.Playing = true
     end
 
     if Options.Hit.Value == "Bruh" then
         SoundService.PlayerHit.SoundId = "rbxassetid://4275842574"
         SoundService.PlayerHit2.SoundId = "rbxassetid://4275842574"
-        wait(0.5)
+        wait(0.2)
         SoundService.PlayerHit2.Playing = true
     end
 
@@ -824,7 +817,7 @@ ArmsSect:AddButton('Set Default Color', function()
 end)
 
 ArmsSect:AddLabel('Color'):AddColorPicker('ARCCCC', {
-    Default = Color3.new(0.686274, 0.580392, 0.282352),
+    Default = Color3.new(1, 0.650980, 0),
     Title = 'Arms Color',
 })
 
@@ -890,8 +883,19 @@ end)
 --
 
 -- ESP
-local EspSect = VisualsTab:AddLeftGroupbox('ESP')
-EspSect:AddToggle('NameESPToggle', {Text = 'Name', Default = false}):OnChanged(function(State3)
+local EspSect = VisualsTab:AddLeftGroupbox('Player ESP')
+
+EspSect:AddToggle('BoxToggle', {
+    Text = 'Box',
+    Default = false,
+}):OnChanged(function(Toggle)
+
+end)
+
+EspSect:AddToggle('NameESPToggle', {
+    Text = 'Name',
+    Default = false
+}):OnChanged(function(State3)
     Names = State3
     screen = State3
     end)
@@ -904,7 +908,7 @@ EspSect:AddToggle('NameESPToggle', {Text = 'Name', Default = false}):OnChanged(f
     function ESPText(part)
     local name = Drawing.new("Text")
     name.Text = part.Nametag.tag.Text
-    name.Color = Color3.new(1,1,1)
+    name.Color = Color3.new(1, 0, 0)
     name.Position = WTS(part)
     name.Size = 20.0
     name.Outline = true
@@ -930,7 +934,7 @@ EspSect:AddToggle('NameESPToggle', {Text = 'Name', Default = false}):OnChanged(f
     end)
     end)
 end
-    
+
 for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do 
     if v.Name == "Head" and v.Parent.Name == "Model" then
         ESPText(v)
@@ -943,7 +947,30 @@ game.Workspace.DescendantAdded:Connect(function(v)
     end
 end)
 
-local ClaimStoneESP = EspSect:AddButton('Claimstone', function()
+EspSect:AddToggle('HpToggle', {
+    Text = 'Healthbar',
+    Default = false,
+}):OnChanged(function(Toggle)
+    Healthbar = Toggle
+end)
+
+EspSect:AddToggle('ChamsToggle', {
+    Text = 'Chams',
+    Default = false,
+}):OnChanged(function(Toggle)
+    Chamses = Toggle
+end)
+
+EspSect:AddToggle('LinesToggle', {
+    Text = 'Lines',
+    Default = false,
+}):OnChanged(function(Toggle)
+    Lines = Toggle
+end)
+
+local ObjectEspSect = VisualsTab:AddLeftGroupbox('Object ESP')
+
+local ClaimStoneESP = ObjectEspSect:AddButton('Claimstone', function()
     local function CreateEsp(name,text,P)
         local ESP = Instance.new("BillboardGui")
         local EspText = Instance.new("TextLabel")
@@ -985,6 +1012,14 @@ local ClaimStoneESPDestroy = ClaimStoneESP:AddButton('Destroy', function()
             v.csESP:Destroy()
         end
     end
+end)
+
+local MilitaryCrateESP = ObjectEspSect:AddButton('MilitaryCrate', function()
+
+end)
+
+local MilitaryCrateDestroy = MilitaryCrateESP:AddButton('Destroy', function()
+    
 end)
 
 --
@@ -1046,7 +1081,7 @@ Toggles.Altsh:OnChanged(function(T)
 end)
 
 AimlockSector:AddLabel('Color'):AddColorPicker('CCFF', {
-    Default = Color3.new(1, 1, 1),
+    Default = Color3.new(1, 0, 0),
     Title = 'Fov Color',
 })
 Options.CCFF:OnChanged(function(KKK)
@@ -1166,7 +1201,7 @@ end)
 GunModsSector:AddToggle('Gnrf', {
     Text = "Rapid Fire",
     Default = false,
-    Tooltip = "Pistols rapid fire",
+    Tooltip = "Pistols mode auto",
 })
 Toggles.Gnrf:OnChanged(function(T)
     if T == true then
@@ -1189,12 +1224,12 @@ GunModsSector:AddToggle('Gnnd', {
 })
 Toggles.Gnnd:OnChanged(function(T)
     if T == true then
-        BowDerect.projectileDrop = 0.5
-		PipePistolDerect.projectileDrop = 0.5
-		PipeSMGDerect.projectileDrop = 0.5
-		USPDerect.projectileDrop = 0.5
-		HMARDerect.projectileDrop = 0.5
-		DerectCrossbow.projectileDrop = 0.5
+        BowDerect.projectileDrop = 1
+		PipePistolDerect.projectileDrop = 1
+		PipeSMGDerect.projectileDrop = 1
+		USPDerect.projectileDrop = 1
+		HMARDerect.projectileDrop = 1
+		DerectCrossbow.projectileDrop = 1
     elseif T == false then
         BowDerect.projectileDrop = 3
         PipePistolDerect.projectileDrop = 3
