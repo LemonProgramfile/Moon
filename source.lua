@@ -700,7 +700,7 @@ WorldSect:AddToggle('Gr', {
     Tooltip = 'Off/on grass',
 })
 Toggles.Gr:OnChanged(function(GrassRemove)
-    print(GrassRemove)
+    sethiddenproperty(game.Workspace.Terrain, "Decoration", GrassRemove)
 end)
 --
 
@@ -891,27 +891,55 @@ end)
 
 -- ESP
 local EspSect = VisualsTab:AddLeftGroupbox('ESP')
-EspSect:AddLabel('ESP Chams'):AddKeyPicker('espchmsk', {
-    Default = 'W', 
-    SyncToggleState = false, 
-    Mode = 'Toggle', 
-    Text = 'ESP Chams', 
-    NoUI = true, 
-})
-Options.espchmsk:OnClick(function()
-    for i, a in ipairs(workspace:GetChildren()) do
-        if a:FindFirstChild("Humanoid") then
-            if not a:FindFirstChild("Esp") then
-                if a ~= game:GetService("Workspace").Ignore.FPSArms then
-                    local b = Instance.new("Highlight",a)
-                    b.Adornee = a
-                    b.Name = "Esp"
-                    b.FillColor = Color3.fromRGB(255, 149, 0)
-                    b.FillTransparency = 0.6
-                    b.OutlineColor = Color3.fromRGB(120, 75, 11)
-                end
-            end
+EspSect:AddToggle('NameESPToggle', {Text = 'Name', Default = false}):OnChanged(function(State3)
+    Names = State3
+    screen = State3
+    end)
+    
+    function WTS(part)
+    local screen = workspace.CurrentCamera:WorldToViewportPoint(part.Position)
+        return Vector2.new(screen.x, screen.y - 6)
+    end
+    
+    function ESPText(part)
+    local name = Drawing.new("Text")
+    name.Text = part.Nametag.tag.Text
+    name.Color = Color3.new(1,1,1)
+    name.Position = WTS(part)
+    name.Size = 20.0
+    name.Outline = true
+    name.Center = true
+    name.Visible = true
+    
+    game:GetService("RunService").Stepped:connect(function()
+        pcall(function()
+        local destroyed = not part:IsDescendantOf(game.Workspace)
+        if destroyed and name ~= nil then
+            name:Remove()
         end
+        if part ~= nil then
+            name.Position = WTS(part)
+        end
+        local _, screen = workspace.CurrentCamera:WorldToViewportPoint(part.Position)
+        
+        if screen and Names then
+            name.Visible = true
+        else
+            name.Visible = false
+        end
+    end)
+    end)
+end
+    
+for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do 
+    if v.Name == "Head" and v.Parent.Name == "Model" then
+        ESPText(v)
+    end
+end
+
+game.Workspace.DescendantAdded:Connect(function(v)
+    if v.Name == "Head" and v.Parent.Name == "Model" then
+        ESPText(v)
     end
 end)
 
